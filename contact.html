@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact BuildKart — WhatsApp Dispatch &amp; Bulk Site Quotes</title>
+    <meta
+      name="description"
+      content="Contact BuildKart on WhatsApp for bulk cement, TMT steel, brick, and sand quotes, scheduled site unloading, and payment link support."
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="BuildKart" />
+    <meta property="og:title" content="Contact BuildKart — Quick Site Quotes" />
+    <meta
+      property="og:description"
+      content="Reach BuildKart dispatch on WhatsApp for instant material rates and truckload scheduling."
+    />
+    <meta property="og:image" content="images/hero-yard.jpg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Contact BuildKart" />
+    <meta name="twitter:description" content="Get fast WhatsApp quotes for bulk construction materials." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="index.html" class="brand-wordmark">Build<span class="brand-accent">Kart</span></a>
+
+        <nav class="desktop-nav" aria-label="Primary Navigation">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="shop.html" class="nav-link">Shop</a>
+          <a href="index.html#grade-guide" class="nav-link">Grade Guide</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="contact.html" class="nav-link active">Contact</a>
+        </nav>
+
+        <form class="header-search-form" role="search" action="shop.html" method="get">
+          <label for="global-header-search" class="sr-only">Search materials by name or category</label>
+          <div class="header-search-wrap">
+            <svg class="header-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+              type="search"
+              id="global-header-search"
+              name="q"
+              class="header-search-input"
+              placeholder="Search cement, steel, bricks, sand..."
+              autocomplete="off"
+            />
+            <button type="button" id="global-search-clear" class="header-search-clear" aria-label="Clear search" hidden>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+          <div id="global-search-dropdown" class="header-search-dropdown" hidden></div>
+        </form>
+
+        <div class="header-actions">
+          <a href="cart.html" class="cart-btn" aria-label="View shopping cart">
+            <span>Cart</span>
+            <span class="cart-count" data-cart-count>0</span>
+          </a>
+          <button
+            type="button"
+            id="menu-toggle-btn"
+            class="menu-toggle"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            aria-controls="mobile-drawer"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div id="mobile-drawer-backdrop" class="mobile-drawer-backdrop"></div>
+    <aside id="mobile-drawer" class="mobile-drawer" aria-hidden="true" aria-label="Mobile Navigation">
+      <div class="mobile-drawer-head">
+        <span class="brand-wordmark">Build<span class="brand-accent">Kart</span></span>
+        <button type="button" id="drawer-close-btn" class="menu-toggle" aria-label="Close navigation menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <nav class="mobile-nav-list">
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="shop.html" class="mobile-nav-link">Shop All Materials</a>
+        <a href="index.html#grade-guide" class="mobile-nav-link">Material Grade Guide</a>
+        <a href="about.html" class="mobile-nav-link">About BuildKart</a>
+        <a href="contact.html" class="mobile-nav-link active">Contact &amp; Bulk Quote</a>
+      </nav>
+      <div class="mobile-drawer-footer">
+        <a href="cart.html" class="btn btn-primary btn-full">Go to Cart &amp; Checkout</a>
+      </div>
+    </aside>
+
+    <main>
+      <section class="page-banner">
+        <div class="container">
+          <h1 class="page-title">Contact &amp; Site Dispatch Desk</h1>
+          <p class="page-subtitle">
+            Need a truckload rate for a project or quick delivery confirmation? Chat directly with our team on WhatsApp.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="contact-grid">
+            <div class="contact-card">
+              <div>
+                <span class="section-kicker">Direct Channels</span>
+                <h2 style="margin: 6px 0 0; font-family: var(--font-display); font-size: 22px;">Fastest Way to Reach Us</h2>
+              </div>
+
+              <p style="margin: 0; color: var(--text-secondary); font-size: 15px;">
+                Our dispatch desk operates <strong data-store-hours>Mon – Sat · 7:00 AM to 8:00 PM</strong> to coordinate tipper loads, cement pallets, and steel deliveries.
+              </p>
+
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div>
+                  <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">WhatsApp Order &amp; Support</div>
+                  <div class="tabular-nums" data-store-phone style="font-size: 16px; font-weight: 700;">+91 98765 43210</div>
+                </div>
+                <div>
+                  <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Orders Email</div>
+                  <div data-store-email style="font-size: 15px; font-weight: 600;">orders@buildkart.in</div>
+                </div>
+                <div>
+                  <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Payments Accepted</div>
+                  <div style="font-size: 15px; color: var(--text-secondary);">UPI QR · Payment Link (UPI / Cards) · Cash on Delivery</div>
+                </div>
+              </div>
+
+              <a
+                href="#"
+                data-whatsapp-float
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-whatsapp"
+              >
+                Open Instant WhatsApp Chat
+              </a>
+            </div>
+
+            <div class="contact-card" style="background-color: var(--bg-page);">
+              <div>
+                <span class="section-kicker">Bulk Project Enquiry</span>
+                <h2 style="margin: 6px 0 0; font-family: var(--font-display); font-size: 22px;">Send Your Material List</h2>
+              </div>
+
+              <form id="contact-enquiry-form" novalidate style="display: flex; flex-direction: column; gap: 14px;">
+                <div class="form-group">
+                  <label class="form-label" for="contact-name">Your Name / Firm *</label>
+                  <input type="text" id="contact-name" class="form-input" placeholder="e.g. Suresh Kulkarni" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="contact-phone">Mobile Number *</label>
+                  <input type="tel" id="contact-phone" class="form-input" placeholder="e.g. 9876543210" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="contact-message">Materials &amp; Site Location *</label>
+                  <textarea
+                    id="contact-message"
+                    class="form-textarea"
+                    placeholder="e.g. 200 bags UltraTech OPC 53, 3 tons Tata 12mm steel, delivery to Whitefield."
+                    required
+                  ></textarea>
+                </div>
+
+                <div id="contact-form-status" style="font-size: 14px; font-weight: 600; min-height: 20px;"></div>
+
+                <button type="submit" class="btn btn-primary">Send Enquiry via WhatsApp</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h2 class="footer-brand">Build<span class="brand-accent">Kart</span></h2>
+            <p class="footer-text">
+              Modern construction materials marketplace delivering cement, steel, bricks, and sand directly to contractors and builders.
+            </p>
+          </div>
+          <div>
+            <h3 class="footer-heading">Categories</h3>
+            <ul class="footer-links">
+              <li><a href="shop.html?category=Cement">Cement (OPC &amp; PPC)</a></li>
+              <li><a href="shop.html?category=Steel">TMT Steel Bars</a></li>
+              <li><a href="shop.html?category=Bricks">Bricks &amp; AAC Blocks</a></li>
+              <li><a href="shop.html?category=Sand">Sand &amp; Aggregates</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="footer-heading">Store Pages</h3>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="shop.html">Shop All</a></li>
+              <li><a href="cart.html">Cart &amp; Checkout</a></li>
+              <li><a href="about.html">About BuildKart</a></li>
+              <li><a href="admin.html">Admin Panel</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="footer-heading">Site Support</h3>
+            <ul class="footer-links">
+              <li><a href="contact.html">Request Bulk Quote</a></li>
+              <li><a href="index.html#grade-guide">Material Grade Guide</a></li>
+              <li><span data-store-hours>Mon – Sat · 7 AM – 8 PM</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; <span data-current-year>2026</span> BuildKart. All rights reserved.</span>
+          <span>Prices in INR (₹) · UPI &amp; Cash on Delivery Accepted</span>
+        </div>
+      </div>
+    </footer>
+
+    <a
+      href="#"
+      data-whatsapp-float
+      target="_blank"
+      rel="noopener noreferrer"
+      class="whatsapp-float"
+      aria-label="Chat or order on WhatsApp"
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm5.79 14.12c-.24.68-1.41 1.3-1.95 1.38-.52.08-1.18.11-1.9-.12-.44-.14-1-.33-1.72-.64-3.03-1.31-5-4.38-5.15-4.58-.15-.2-1.23-1.64-1.23-3.13 0-1.49.78-2.22 1.06-2.52.28-.3.61-.38.81-.38.2 0 .41 0 .59.01.19.01.44-.07.69.53.25.6.86 2.09.94 2.24.08.15.13.33.02.53-.1.2-.15.33-.3.5-.15.18-.32.4-.45.54-.15.15-.31.32-.13.62.18.3.79 1.3 1.7 2.11 1.17 1.04 2.16 1.37 2.46 1.52.3.15.48.13.66-.08.18-.2.75-.88.95-1.18.2-.3.4-.25.68-.15.28.1 1.77.83 2.07.99.3.15.5.23.58.36.08.13.08.76-.16 1.44z"/>
+      </svg>
+      <span class="whatsapp-float-label">WhatsApp Order</span>
+    </a>
+
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "BuildKart — Construction Materials Marketplace",
+  "description": "Order cement, TMT steel, bricks, and sand online for construction sites with instant WhatsApp checkout, UPI/COD options, and a material grade guide.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

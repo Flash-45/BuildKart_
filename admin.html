@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel — Store &amp; Order Management | BuildKart</title>
+    <meta
+      name="description"
+      content="BuildKart Admin Panel for managing construction material prices, stock availability, customer WhatsApp orders, and store UPI settings."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="admin-body">
+    <!-- 1. Offline Passcode Gate Screen -->
+    <section id="admin-gate" class="admin-gate-wrap" aria-label="Admin Passcode Login">
+      <div class="admin-gate-card">
+        <div>
+          <a href="index.html" class="brand-wordmark">Build<span class="brand-accent">Kart</span></a>
+          <h1 class="admin-gate-title" style="margin-top: 10px;">Admin Panel</h1>
+          <p class="admin-gate-sub">Enter your store passcode to manage products, rates, orders, and WhatsApp/UPI settings.</p>
+        </div>
+
+        <form id="admin-login-form" style="display: flex; flex-direction: column; gap: 12px;" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="admin-passcode-input">Passcode</label>
+            <div class="passcode-input-wrap">
+              <input
+                type="password"
+                id="admin-passcode-input"
+                class="form-input tabular-nums"
+                placeholder="Enter passcode"
+                autocomplete="current-password"
+                required
+              />
+              <button type="button" id="toggle-passcode-btn" class="btn btn-outline" aria-label="Show or hide passcode">
+                Show
+              </button>
+            </div>
+            <div id="admin-login-error" class="form-error" role="alert"></div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">Unlock Admin Panel</button>
+        </form>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--text-muted); padding-top: 10px; border-top: 1px solid var(--border-hairline);">
+          <span>Manage passcode in Store Settings</span>
+          <a href="index.html" style="color: var(--accent-text); font-weight: 600;">Back to Store</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Admin Management Workspace (Shown after passcode unlock) -->
+    <div id="admin-workspace" class="admin-shell" hidden>
+      <!-- Sidebar Navigation (Desktop Vertical Sidebar; Compact Brand Header on Mobile) -->
+      <aside class="admin-sidebar" aria-label="Admin Sections">
+        <div class="admin-sidebar-head">
+          <a href="index.html" class="brand-wordmark" style="color: #ffffff;">Build<span class="brand-accent">Kart</span></a>
+          <span class="admin-role-label">Admin Console</span>
+        </div>
+
+        <nav class="admin-nav" role="tablist" aria-label="Dashboard sections">
+          <button type="button" class="admin-nav-btn active" data-admin-tab="overview">Overview</button>
+          <button type="button" class="admin-nav-btn" data-admin-tab="products">Product Management</button>
+          <button type="button" class="admin-nav-btn" data-admin-tab="orders">Order Logs</button>
+          <button type="button" class="admin-nav-btn" data-admin-tab="settings">Store Settings</button>
+          <button type="button" class="admin-nav-btn" data-admin-tab="publish">Publish to GitHub</button>
+        </nav>
+      </aside>
+
+      <!-- Workspace Main Column -->
+      <div class="admin-main">
+        <header class="admin-topbar">
+          <div class="admin-breadcrumb">
+            <span>BuildKart Admin</span>
+            <span aria-hidden="true">/</span>
+            <strong id="admin-active-title">Overview</strong>
+          </div>
+
+          <div class="admin-topbar-actions">
+            <button type="button" id="topbar-export-btn" class="btn btn-primary btn-sm">Export products.js</button>
+            <a href="shop.html" class="btn btn-outline btn-sm">Preview Store</a>
+            <button type="button" id="admin-lock-btn" class="btn btn-dark btn-sm">Lock</button>
+          </div>
+        </header>
+
+        <main class="admin-content">
+          <!-- TAB 1: Overview -->
+          <section id="tab-overview" class="admin-tab-panel">
+            <div class="kpi-grid" id="admin-kpi-grid">
+              <!-- Populated dynamically by js/admin.js -->
+            </div>
+
+            <!-- Three Distinct Workspace Section Cards -->
+            <div class="admin-hub-grid" id="admin-hub-grid">
+              <article class="admin-hub-card">
+                <div class="admin-hub-head">
+                  <span class="admin-hub-kicker">01 · Catalog &amp; Pricing</span>
+                  <h2 class="admin-panel-title">Product Management</h2>
+                  <p class="admin-hub-desc">Update daily Cement, Steel, Brick, and Sand rates, stock availability, and featured items.</p>
+                </div>
+                <div class="admin-hub-stat" id="hub-products-summary">Loading catalog...</div>
+                <div class="admin-hub-actions">
+                  <button type="button" class="btn btn-primary" data-jump-tab="products">Open Products</button>
+                  <button type="button" class="btn btn-outline" data-jump-tab="products" data-open-add-product="true">+ Add Material</button>
+                </div>
+              </article>
+
+              <article class="admin-hub-card">
+                <div class="admin-hub-head">
+                  <span class="admin-hub-kicker">02 · Site Dispatch</span>
+                  <h2 class="admin-panel-title">Order Logs</h2>
+                  <p class="admin-hub-desc">Track customer checkout orders, update dispatch statuses, log phone orders, and export to Excel.</p>
+                </div>
+                <div class="admin-hub-stat" id="hub-orders-summary">Loading orders...</div>
+                <div class="admin-hub-actions">
+                  <button type="button" class="btn btn-primary" data-jump-tab="orders">Open Order Logs</button>
+                  <button type="button" class="btn btn-outline" id="hub-export-csv-btn">Export CSV</button>
+                </div>
+              </article>
+
+              <article class="admin-hub-card">
+                <div class="admin-hub-head">
+                  <span class="admin-hub-kicker">03 · Storefront Config</span>
+                  <h2 class="admin-panel-title">Store Settings</h2>
+                  <p class="admin-hub-desc">Configure your WhatsApp order number, UPI ID &amp; QR code, dispatch hours, and Admin passcode.</p>
+                </div>
+                <div class="admin-hub-stat" id="hub-settings-summary">Loading store settings...</div>
+                <div class="admin-hub-actions">
+                  <button type="button" class="btn btn-primary" data-jump-tab="settings">Edit Settings</button>
+                  <button type="button" class="btn btn-dark" data-jump-tab="publish">Publish Changes</button>
+                </div>
+              </article>
+            </div>
+
+            <div class="admin-panel-card">
+              <div class="admin-panel-head">
+                <h2 class="admin-panel-title">Recent Site Orders</h2>
+                <button type="button" class="btn btn-outline btn-sm" data-jump-tab="orders">View All Orders</button>
+              </div>
+              <div id="overview-recent-orders">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 2: Product Management -->
+          <section id="tab-products" class="admin-tab-panel" hidden>
+            <div class="admin-panel-card">
+              <div class="admin-panel-head">
+                <div>
+                  <h2 class="admin-panel-title">Product Management</h2>
+                  <p class="admin-panel-sub">
+                    Update unit prices, toggle stock status, or edit specs. Changes sync to your storefront right away.
+                  </p>
+                </div>
+                <button type="button" id="add-product-btn" class="btn btn-primary">+ Add Material</button>
+              </div>
+
+              <div class="admin-toolbar">
+                <label for="admin-prod-search" class="sr-only">Search products</label>
+                <input
+                  type="search"
+                  id="admin-prod-search"
+                  class="form-input"
+                  placeholder="Search material, brand, or grade..."
+                />
+                <label for="admin-prod-cat" class="sr-only">Filter by category</label>
+                <select id="admin-prod-cat" class="form-select">
+                  <option value="All">All Categories</option>
+                  <option value="Cement">Cement</option>
+                  <option value="Steel">Steel</option>
+                  <option value="Bricks">Bricks</option>
+                  <option value="Sand">Sand</option>
+                </select>
+                <span id="admin-prod-count" class="admin-count-text"></span>
+              </div>
+            </div>
+
+            <!-- Mobile-friendly card grid directly on workspace canvas -->
+            <div id="admin-products-list" class="admin-cards-grid">
+              <!-- Populated dynamically by js/admin.js -->
+            </div>
+          </section>
+
+          <!-- TAB 3: Order Logs -->
+          <section id="tab-orders" class="admin-tab-panel" hidden>
+            <div class="admin-panel-card">
+              <div class="admin-panel-head">
+                <div>
+                  <h2 class="admin-panel-title">Order Logs</h2>
+                  <p class="admin-panel-sub">
+                    Orders from Cart &amp; Checkout appear here automatically. Log phone orders or export records to Excel.
+                  </p>
+                </div>
+                <div class="admin-head-actions">
+                  <button type="button" id="export-orders-csv-btn" class="btn btn-outline" title="Download current order log as Excel-compatible CSV">Export CSV</button>
+                  <button type="button" id="add-manual-order-btn" class="btn btn-primary">+ Log Manual Order</button>
+                </div>
+              </div>
+
+              <div id="order-status-tabs" class="filter-tabs">
+                <button type="button" class="filter-tab active" data-order-status="All">All Orders</button>
+                <button type="button" class="filter-tab" data-order-status="Pending">Pending</button>
+                <button type="button" class="filter-tab" data-order-status="Confirmed">Confirmed</button>
+                <button type="button" class="filter-tab" data-order-status="Dispatched">Dispatched</button>
+                <button type="button" class="filter-tab" data-order-status="Delivered">Delivered</button>
+              </div>
+            </div>
+
+            <!-- Mobile-friendly order cards directly on workspace canvas -->
+            <div id="admin-orders-container" class="admin-cards-grid admin-orders-grid">
+              <!-- Populated dynamically by js/admin.js -->
+            </div>
+          </section>
+
+          <!-- TAB 4: Store Settings -->
+          <section id="tab-settings" class="admin-tab-panel" hidden>
+            <form id="admin-settings-form" class="admin-settings-stack">
+              <div class="admin-panel-card">
+                <div class="admin-panel-head">
+                  <div>
+                    <h2 class="admin-panel-title">Store Identity &amp; Dispatch Contact</h2>
+                    <p class="admin-panel-sub">Displayed in the header, footer, and Contact page.</p>
+                  </div>
+                </div>
+                <div class="admin-settings-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="set-store-name">Store Name</label>
+                    <input type="text" id="set-store-name" class="form-input" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="set-phone-display">Display Phone Number</label>
+                    <input type="tel" id="set-phone-display" class="form-input tabular-nums" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="set-email">Support Email</label>
+                    <input type="email" id="set-email" class="form-input" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="set-hours">Dispatch Hours</label>
+                    <input type="text" id="set-hours" class="form-input" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="set-city">Service Area</label>
+                    <input type="text" id="set-city" class="form-input" required />
+                  </div>
+                </div>
+              </div>
+
+              <div class="admin-panel-card">
+                <div class="admin-panel-head">
+                  <div>
+                    <h2 class="admin-panel-title">WhatsApp Orders &amp; UPI Payments</h2>
+                    <p class="admin-panel-sub">Used on Cart &amp; Checkout and product direct-order buttons.</p>
+                  </div>
+                </div>
+                <div class="admin-settings-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="set-wa-number">WhatsApp Number (91 + 10 digits, no +)</label>
+                    <input type="tel" id="set-wa-number" inputmode="numeric" class="form-input tabular-nums" placeholder="919876543210" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="set-upi-id">UPI ID</label>
+                    <input type="text" id="set-upi-id" class="form-input tabular-nums" placeholder="buildkart@upi" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="set-upi-qr">UPI QR Image Path</label>
+                    <input type="text" id="set-upi-qr" class="form-input" placeholder="images/upi-qr-placeholder.svg" required />
+                  </div>
+                </div>
+              </div>
+
+              <div class="admin-panel-card">
+                <div class="admin-panel-head">
+                  <div>
+                    <h2 class="admin-panel-title">Admin Access Security</h2>
+                    <p class="admin-panel-sub">Update the offline passcode required to unlock this dashboard.</p>
+                  </div>
+                </div>
+                <div class="admin-settings-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="set-passcode">Admin Passcode (min 4 characters)</label>
+                    <input type="text" id="set-passcode" inputmode="numeric" class="form-input tabular-nums" minlength="4" required />
+                  </div>
+                </div>
+              </div>
+
+              <div class="admin-settings-savebar">
+                <button type="submit" class="btn btn-primary admin-save-btn">Save Store Settings</button>
+                <button type="button" class="btn btn-outline" data-jump-tab="publish">Publish to GitHub</button>
+              </div>
+            </form>
+          </section>
+
+          <!-- TAB 5: Publish to GitHub -->
+          <section id="tab-publish" class="admin-tab-panel" hidden>
+            <div class="admin-panel-card">
+              <div class="admin-panel-head">
+                <div>
+                  <h2 class="admin-panel-title">Export &amp; Publish Changes to GitHub</h2>
+                  <p class="admin-panel-sub">
+                    Your edits are saved in this browser for instant preview. To make them live for all customers on GitHub:
+                  </p>
+                </div>
+              </div>
+
+              <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--text-secondary);">
+                <li>Click <strong>Download products.js</strong> below.</li>
+                <li>In your project folder (or GitHub repository), replace <code>js/products.js</code> with the downloaded file.</li>
+                <li>Commit and push to GitHub—your live site updates automatically.</li>
+              </ol>
+
+              <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <button type="button" id="publish-download-btn" class="btn btn-primary">Download products.js</button>
+                <button type="button" id="publish-copy-btn" class="btn btn-outline">Copy Code to Clipboard</button>
+                <button type="button" id="publish-reset-btn" class="btn btn-danger-outline">Reset Local Edits</button>
+              </div>
+
+              <div id="reset-confirm-bar" hidden style="padding: 12px 14px; background-color: #fef2f2; border: 1px solid #fecaca; border-radius: var(--radius-sm); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; font-size: 14px;">
+                <span>Discard all unsaved browser edits and revert to the original <code>js/products.js</code> file?</span>
+                <div style="display: flex; gap: 8px;">
+                  <button type="button" id="confirm-reset-yes" class="btn btn-primary btn-sm" style="background-color: var(--danger);">Yes, Reset</button>
+                  <button type="button" id="confirm-reset-no" class="btn btn-outline btn-sm">Cancel</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="export-code-preview">Generated <code>js/products.js</code> Preview</label>
+                <textarea id="export-code-preview" class="code-export-box" readonly></textarea>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+
+      <!-- Mobile Bottom Thumb Navigation (<= 1023px) -->
+      <nav class="admin-mobile-nav" role="tablist" aria-label="Mobile admin navigation">
+        <button type="button" class="admin-mobile-nav-btn active" data-admin-tab="overview">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>Home</span>
+        </button>
+        <button type="button" class="admin-mobile-nav-btn" data-admin-tab="products">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+          </svg>
+          <span>Products</span>
+        </button>
+        <button type="button" class="admin-mobile-nav-btn" data-admin-tab="orders">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path>
+            <rect x="9" y="3" width="6" height="4" rx="1"></rect>
+          </svg>
+          <span>Orders</span>
+        </button>
+        <button type="button" class="admin-mobile-nav-btn" data-admin-tab="settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>Settings</span>
+        </button>
+        <button type="button" class="admin-mobile-nav-btn" data-admin-tab="publish">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Publish</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Add / Edit Product Modal -->
+    <div id="product-modal-backdrop" class="admin-modal-backdrop" hidden>
+      <div class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
+        <div class="admin-modal-head">
+          <h2 id="product-modal-title" style="margin: 0; font-family: var(--font-display); font-size: 20px;">Add Material</h2>
+          <button type="button" id="close-product-modal" class="menu-toggle" aria-label="Close modal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <form id="admin-product-form" style="display: flex; flex-direction: column; gap: 14px;">
+          <input type="hidden" id="prod-id" />
+
+          <div class="admin-modal-grid">
+            <div class="form-group">
+              <label class="form-label" for="prod-name">Material Name *</label>
+              <input type="text" id="prod-name" class="form-input" placeholder="e.g. UltraTech OPC 53 Cement" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="prod-brand">Brand *</label>
+              <input type="text" id="prod-brand" class="form-input" placeholder="e.g. UltraTech" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="prod-category">Category *</label>
+              <select id="prod-category" class="form-select" required>
+                <option value="Cement">Cement</option>
+                <option value="Steel">Steel</option>
+                <option value="Bricks">Bricks</option>
+                <option value="Sand">Sand</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="prod-unit">Unit *</label>
+              <input type="text" id="prod-unit" class="form-input" placeholder="e.g. 50 kg Bag" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="prod-price">Unit Price (₹) *</label>
+              <input type="number" id="prod-price" class="form-input tabular-nums" min="1" step="1" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="prod-min-order">Minimum Order Qty *</label>
+              <input type="number" id="prod-min-order" class="form-input tabular-nums" min="1" step="1" value="1" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="prod-grade">Grade / Spec Summary *</label>
+              <input type="text" id="prod-grade" class="form-input" placeholder="e.g. Fe-550D · 12mm Diameter" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="prod-image">Image Path *</label>
+              <select id="prod-image-preset" class="form-select" style="margin-bottom: 6px;">
+                <option value="images/cement.jpg">Cement Bags (images/cement.jpg)</option>
+                <option value="images/steel.jpg">TMT Steel (images/steel.jpg)</option>
+                <option value="images/bricks.jpg">Bricks &amp; AAC (images/bricks.jpg)</option>
+                <option value="images/sand.jpg">Sand &amp; Jelly (images/sand.jpg)</option>
+                <option value="custom">Custom Image Path...</option>
+              </select>
+              <input type="text" id="prod-image" class="form-input" value="images/cement.jpg" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="prod-desc">Short Description *</label>
+            <textarea id="prod-desc" class="form-textarea" style="min-height: 76px;" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="prod-specs">Technical Specs (one per line as Label: Value)</label>
+            <textarea
+              id="prod-specs"
+              class="form-textarea"
+              style="min-height: 90px; font-family: var(--font-mono); font-size: 13px;"
+              placeholder="Grade Standard: IS 269 (OPC 53)&#10;Pack Weight: 50 kg bag"
+            ></textarea>
+          </div>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 18px;">
+            <label style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 14px; font-weight: 600; cursor: pointer;">
+              <input type="checkbox" id="prod-instock" checked style="width: 18px; height: 18px; accent-color: var(--accent);" />
+              <span>In Stock</span>
+            </label>
+            <label style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 14px; font-weight: 600; cursor: pointer;">
+              <input type="checkbox" id="prod-featured" style="width: 18px; height: 18px; accent-color: var(--accent);" />
+              <span>Show in Home Featured</span>
+            </label>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button type="button" id="cancel-product-modal" class="btn btn-outline">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Material</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Log Manual Order Modal -->
+    <div id="order-modal-backdrop" class="admin-modal-backdrop" hidden>
+      <div class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="order-modal-title">
+        <div class="admin-modal-head">
+          <h2 id="order-modal-title" style="margin: 0; font-family: var(--font-display); font-size: 20px;">Log Manual Phone / WhatsApp Order</h2>
+          <button type="button" id="close-order-modal" class="menu-toggle" aria-label="Close modal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <form id="admin-manual-order-form" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="admin-modal-grid">
+            <div class="form-group">
+              <label class="form-label" for="ord-cust-name">Customer / Contractor Name *</label>
+              <input type="text" id="ord-cust-name" class="form-input" placeholder="e.g. Mahesh Builders" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ord-cust-phone">Mobile Number *</label>
+              <input type="tel" id="ord-cust-phone" class="form-input tabular-nums" placeholder="9876543210" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="ord-address">Delivery Site Address *</label>
+            <input type="text" id="ord-address" class="form-input" placeholder="Site location &amp; city" required />
+          </div>
+
+          <div class="admin-modal-grid">
+            <div class="form-group">
+              <label class="form-label" for="ord-summary">Materials Ordered *</label>
+              <input type="text" id="ord-summary" class="form-input" placeholder="e.g. 100 bags UltraTech OPC 53" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ord-total">Total Amount (₹) *</label>
+              <input type="number" id="ord-total" class="form-input tabular-nums" min="1" step="1" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ord-payment">Payment Mode</label>
+              <select id="ord-payment" class="form-select">
+                <option value="UPI / Payment Link">UPI / Payment Link</option>
+                <option value="Cash on Delivery">Cash on Delivery</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ord-status">Order Status</label>
+              <select id="ord-status" class="form-select">
+                <option value="Pending">Pending</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Dispatched">Dispatched</option>
+                <option value="Delivered">Delivered</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px;">
+            <button type="button" id="cancel-order-modal" class="btn btn-outline">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="js/products.js"></script>
+    <script src="js/admin.js"></script>
+  </body>
+</html>
